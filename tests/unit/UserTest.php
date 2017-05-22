@@ -2,63 +2,57 @@
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
+	protected $user;
+	public function setUp()
+	{
+		$this->user = new App\Models\User;
+	}
+
 	/** @test */
 	public function that_we_can_get_first_name()
 	{
-		$user = new App\Models\User;
+		$this->user->setFirstName('Pedro');
 
-		$user->setFirstName('Pedro');
-
-		$this->assertEquals('Pedro', $user->getFirstName());
+		$this->assertEquals('Pedro', $this->user->getFirstName());
 	}
 
 	public function testThatWeCanGetSecondName()
 	{
-		$user = new App\Models\User;
+		$this->user->setSecondName('Fernandez');
 
-		$user->setSecondName('Fernandez');
-
-		$this->assertEquals('Fernandez', $user->getSecondName());
+		$this->assertEquals('Fernandez', $this->user->getSecondName());
 	}
 
 	public function testThatWeCanGetFullName()
 	{
-		$user = new App\Models\User;
+		$this->user->setFirstName('Pedro');
+		$this->user->setSecondName('Fernandez');
 
-		$user->setFirstName('Pedro');
-		$user->setSecondName('Fernandez');
-
-		$this->assertEquals('Pedro Fernandez', $user->getFullName());
+		$this->assertEquals('Pedro Fernandez', $this->user->getFullName());
 	}
 
 	public function testFirstAndSecondNameAreTrimmed()
 	{
-		$user = new App\Models\User;
+		$this->user->setFirstName('       Pedro ');
+		$this->user->setSecondName('   Fernandez    ');
 
-		$user->setFirstName('       Pedro ');
-		$user->setSecondName('   Fernandez    ');
-
-		$this->assertEquals('Pedro Fernandez', $user->getFullName());
+		$this->assertEquals('Pedro Fernandez', $this->user->getFullName());
 	}
 
 	public function testEmailCanBeSet()
 	{
-		$user = new App\Models\User;
+		$this->user->setEmail('pedrosoftwareqa@gmail.com');
 
-		$user->setEmail('pedrosoftwareqa@gmail.com');
-
-		$this->assertEquals('pedrosoftwareqa@gmail.com', $user->getEmail());
+		$this->assertEquals('pedrosoftwareqa@gmail.com', $this->user->getEmail());
 	}
 
 	public function testEmailVariablesContainCorrectValues()
 	{
-		$user = new App\Models\User;
+		$this->user->setFirstName('Pedro');
+		$this->user->setSecondName('Fernandez');
+		$this->user->setEmail('pedrosoftwareqa@gmail.com');
 
-		$user->setFirstName('Pedro');
-		$user->setSecondName('Fernandez');
-		$user->setEmail('pedrosoftwareqa@gmail.com');
-
-		$emailVariables = $user->getEmailVariables();
+		$emailVariables = $this->user->getEmailVariables();
 
 		$this->assertArrayHasKey('full_name', $emailVariables);
 		$this->assertArrayHasKey('email', $emailVariables);

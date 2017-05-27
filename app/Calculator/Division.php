@@ -5,7 +5,7 @@ namespace App\Calculator;
 use App\Calculator\OperationAbstract;
 use App\Calculator\Exception\NoOperandException;
 
-class Addition extends OperationAbstract implements OperationInterface
+class Division extends OperationAbstract implements OperationInterface
 {
 	public function calculate()
 	{
@@ -13,6 +13,11 @@ class Addition extends OperationAbstract implements OperationInterface
 			throw new NoOperandException;
 		}
 
-		return array_sum($this->operands);
+		return array_reduce($this->operands, function ($a, $b) {
+			if ($a !== null && $b !== null) {
+				return $a / $b;
+			}
+			return $b;	
+		}, null);
 	}
 }
